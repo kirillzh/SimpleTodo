@@ -22,17 +22,30 @@ public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
   @NonNull
   @Override
   public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-    TodoItem todoItem = getItem(position);
+    ViewHolder viewHolder;
+
     // Check if an existing view is being reused, otherwise inflate the view
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.todo_item, parent, false);
+      viewHolder = new ViewHolder(convertView);
+      convertView.setTag(viewHolder);
+    } else {
+      viewHolder = (ViewHolder) convertView.getTag();
     }
-    // Lookup view for data population
-    TextView tvTodoItemTitle = convertView.findViewById(R.id.tvTodoItemTitle);
+
+    TodoItem todoItem = getItem(position);
     // Populate the data into the template view using the data object
     assert todoItem != null;
-    tvTodoItemTitle.setText(todoItem.title);
+    viewHolder.title.setText(todoItem.title);
     // Return the completed view to render on screen
     return convertView;
+  }
+
+  private class ViewHolder {
+    TextView title;
+
+    ViewHolder(View todoItemView) {
+      title = todoItemView.findViewById(R.id.tvTodoItemTitle);
+    }
   }
 }
