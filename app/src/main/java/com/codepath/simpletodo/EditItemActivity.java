@@ -9,13 +9,16 @@ import android.widget.EditText;
 public class EditItemActivity extends AppCompatActivity {
   private int itemPosition;
   public static final int ITEM_UPDATED_CODE_OK = 1;
+  public static final String EXTRA_ITEM_TEXT = "item_text";
+  public static final String EXTRA_ITEM_POSITION = "item_position";
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_edit_item);
-    String itemText = getIntent().getStringExtra("item_text");
-    itemPosition = getIntent().getIntExtra("item_position", -1);
+    String itemText = getIntent().getStringExtra(EXTRA_ITEM_TEXT);
+    itemPosition = getIntent().getIntExtra(EXTRA_ITEM_POSITION, -1);
     EditText edEditItem = findViewById(R.id.etEditItem);
     edEditItem.setText(itemText);
     // make sure cursor in the text field is at the end of the current text value and is in focus by default
