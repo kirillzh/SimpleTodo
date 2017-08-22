@@ -15,10 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.codepath.simpletodo.EditItemActivity.EXTRA_ITEM_POSITION;
-import static com.codepath.simpletodo.EditItemActivity.EXTRA_ITEM_TEXT;
-import static com.codepath.simpletodo.EditItemActivity.ITEM_UPDATED_CODE_OK;
-
 public class MainActivity extends AppCompatActivity {
   private ArrayList<TodoItem> mItems;
   private ArrayAdapter<TodoItem> mItemsAdapter;
@@ -108,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
 
   private void launchEditItemActivity(String itemText, int itemPosition) {
     Intent intent = new Intent(this, EditItemActivity.class);
-    intent.putExtra(EXTRA_ITEM_TEXT, itemText);
-    intent.putExtra(EXTRA_ITEM_POSITION, itemPosition);
+    intent.putExtra(EditItemActivity.EXTRA_ITEM_TEXT, itemText);
+    intent.putExtra(EditItemActivity.EXTRA_ITEM_POSITION, itemPosition);
     startActivityForResult(intent, ITEM_UPDATED_CODE);
   }
 
@@ -122,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
    */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == ITEM_UPDATED_CODE && resultCode == ITEM_UPDATED_CODE_OK) {
-      String itemText = data.getStringExtra(EXTRA_ITEM_TEXT);
-      int itemPosition = data.getIntExtra(EXTRA_ITEM_POSITION, -1);
+    if (requestCode == ITEM_UPDATED_CODE && resultCode == EditItemActivity.ITEM_UPDATED_CODE_OK) {
+      String itemText = data.getStringExtra(EditItemActivity.EXTRA_ITEM_TEXT);
+      int itemPosition = data.getIntExtra(EditItemActivity.EXTRA_ITEM_POSITION, -1);
       updateItem(itemPosition, itemText);
     }
   }
