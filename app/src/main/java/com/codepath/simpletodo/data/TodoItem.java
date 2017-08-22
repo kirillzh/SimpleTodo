@@ -1,4 +1,4 @@
-package com.codepath.simpletodo;
+package com.codepath.simpletodo.data;
 
 /**
  * Created by Kirill Zhukov on 8/15/17.

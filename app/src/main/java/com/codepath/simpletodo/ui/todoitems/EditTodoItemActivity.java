@@ -1,10 +1,12 @@
-package com.codepath.simpletodo;
+package com.codepath.simpletodo.ui.todoitems;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+
+import com.codepath.simpletodo.R;
 
 public class EditTodoItemActivity extends AppCompatActivity {
   public static final int ITEM_UPDATED_CODE_OK = 1;
