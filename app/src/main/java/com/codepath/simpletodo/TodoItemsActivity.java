@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class TodoItemsActivity extends AppCompatActivity {
   private ArrayList<TodoItem> mItems;
   private ArrayAdapter<TodoItem> mItemsAdapter;
   private ListView mLvItems;
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_todo_items);
 
     mLvItems = findViewById(R.id.lvItems);
     readItems();
