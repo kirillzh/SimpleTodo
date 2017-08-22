@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
       for (Object line : lines) {
         items.add(new TodoItem(line.toString()));
       }
-    } catch (IOException ignored) {
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
