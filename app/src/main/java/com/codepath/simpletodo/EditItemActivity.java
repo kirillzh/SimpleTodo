@@ -20,7 +20,8 @@ public class EditItemActivity extends AppCompatActivity {
     mItemPosition = getIntent().getIntExtra(EXTRA_ITEM_POSITION, -1);
     EditText edEditItem = findViewById(R.id.etEditItem);
     edEditItem.setText(itemText);
-    // make sure cursor in the text field is at the end of the current text value and is in focus by default
+    // make sure cursor in the text field is at the end of the current text value and
+    // is in focus by default
     edEditItem.setSelection(itemText.length());
   }
 
