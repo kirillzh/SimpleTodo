@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-public class EditItemActivity extends AppCompatActivity {
+public class EditTodoItemActivity extends AppCompatActivity {
   public static final int ITEM_UPDATED_CODE_OK = 1;
   public static final String EXTRA_ITEM_TEXT = "item_text";
   public static final String EXTRA_ITEM_POSITION = "item_position";
@@ -15,7 +15,7 @@ public class EditItemActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_edit_item);
+    setContentView(R.layout.activity_edit_todo_item);
     String itemText = getIntent().getStringExtra(EXTRA_ITEM_TEXT);
     mItemPosition = getIntent().getIntExtra(EXTRA_ITEM_POSITION, -1);
     EditText edEditItem = findViewById(R.id.etEditItem);

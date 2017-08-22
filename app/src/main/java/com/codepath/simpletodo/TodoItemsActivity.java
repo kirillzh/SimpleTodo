@@ -103,9 +103,9 @@ public class TodoItemsActivity extends AppCompatActivity {
   }
 
   private void launchEditItemActivity(String itemText, int itemPosition) {
-    Intent intent = new Intent(this, EditItemActivity.class);
-    intent.putExtra(EditItemActivity.EXTRA_ITEM_TEXT, itemText);
-    intent.putExtra(EditItemActivity.EXTRA_ITEM_POSITION, itemPosition);
+    Intent intent = new Intent(this, EditTodoItemActivity.class);
+    intent.putExtra(EditTodoItemActivity.EXTRA_ITEM_TEXT, itemText);
+    intent.putExtra(EditTodoItemActivity.EXTRA_ITEM_POSITION, itemPosition);
     startActivityForResult(intent, ITEM_UPDATED_CODE);
   }
 
@@ -118,9 +118,9 @@ public class TodoItemsActivity extends AppCompatActivity {
    */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == ITEM_UPDATED_CODE && resultCode == EditItemActivity.ITEM_UPDATED_CODE_OK) {
-      String itemText = data.getStringExtra(EditItemActivity.EXTRA_ITEM_TEXT);
-      int itemPosition = data.getIntExtra(EditItemActivity.EXTRA_ITEM_POSITION, -1);
+    if (requestCode == ITEM_UPDATED_CODE && resultCode == EditTodoItemActivity.ITEM_UPDATED_CODE_OK) {
+      String itemText = data.getStringExtra(EditTodoItemActivity.EXTRA_ITEM_TEXT);
+      int itemPosition = data.getIntExtra(EditTodoItemActivity.EXTRA_ITEM_POSITION, -1);
       updateItem(itemPosition, itemText);
     }
   }
