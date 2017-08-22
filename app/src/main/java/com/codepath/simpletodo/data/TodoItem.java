@@ -5,14 +5,18 @@ package com.codepath.simpletodo.data;
  */
 
 public class TodoItem {
-  public String title;
+  private String mTitle;
 
   public TodoItem(String title) {
-    this.title = title;
+    mTitle = title;
+  }
+
+  public String getTitle() {
+    return mTitle;
   }
 
   @Override
   public String toString() {
-    return title;
+    return getTitle();
   }
 }

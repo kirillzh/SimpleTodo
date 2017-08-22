@@ -52,7 +52,7 @@ public class TodoItemsActivity extends AppCompatActivity {
     mLvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View item, int pos, long id) {
-        launchEditItemActivity(mItems.get(pos).title, pos);
+        launchEditItemActivity(mItems.get(pos).getTitle(), pos);
       }
     });
 
