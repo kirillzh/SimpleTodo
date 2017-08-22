@@ -20,9 +20,9 @@ import static com.codepath.simpletodo.EditItemActivity.EXTRA_ITEM_TEXT;
 import static com.codepath.simpletodo.EditItemActivity.ITEM_UPDATED_CODE_OK;
 
 public class MainActivity extends AppCompatActivity {
-  private ArrayList<TodoItem> items;
-  private ArrayAdapter<TodoItem> itemsAdapter;
-  private ListView lvItems;
+  private ArrayList<TodoItem> mItems;
+  private ArrayAdapter<TodoItem> mItemsAdapter;
+  private ListView mLvItems;
 
   private static final int ITEM_UPDATED_CODE = 1;
 
@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    lvItems = findViewById(R.id.lvItems);
+    mLvItems = findViewById(R.id.lvItems);
     readItems();
-    itemsAdapter = new TodoItemsAdapter(this, items);
-    lvItems.setAdapter(itemsAdapter);
+    mItemsAdapter = new TodoItemsAdapter(this, mItems);
+    mLvItems.setAdapter(mItemsAdapter);
     setupListViewListener();
   }
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     EditText etNewItem = findViewById(R.id.etNewItem);
     String itemText = etNewItem.getText().toString().trim();
     if (!itemText.isEmpty()) {
-      itemsAdapter.add(new TodoItem(itemText));
+      mItemsAdapter.add(new TodoItem(itemText));
       etNewItem.setText("");
       writeItems();
       scrollItemsListViewToBottom();
@@ -50,19 +50,19 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void setupListViewListener() {
-    lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    mLvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View item, int pos, long id) {
-        launchEditItemActivity(items.get(pos).title, pos);
+        launchEditItemActivity(mItems.get(pos).title, pos);
       }
     });
 
-    lvItems.setOnItemLongClickListener(
+    mLvItems.setOnItemLongClickListener(
         new AdapterView.OnItemLongClickListener() {
           @Override
           public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id) {
-            items.remove(pos);
-            itemsAdapter.notifyDataSetChanged();
+            mItems.remove(pos);
+            mItemsAdapter.notifyDataSetChanged();
             writeItems();
             return true;
           }
@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void updateItem(int position, String newItemText) {
-    items.set(position, new TodoItem(newItemText));
-    itemsAdapter.notifyDataSetChanged();
+    mItems.set(position, new TodoItem(newItemText));
+    mItemsAdapter.notifyDataSetChanged();
     writeItems();
   }
 
@@ -84,11 +84,11 @@ public class MainActivity extends AppCompatActivity {
    * Opens a file and reads a newline-delimited list of items
    */
   private void readItems() {
-    items = new ArrayList<>();
+    mItems = new ArrayList<>();
     try {
       ArrayList lines = new ArrayList<>(FileUtils.readLines(getTodoFile()));
       for (Object line : lines) {
-        items.add(new TodoItem(line.toString()));
+        mItems.add(new TodoItem(line.toString()));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
    */
   private void writeItems() {
     try {
-      FileUtils.writeLines(getTodoFile(), items);
+      FileUtils.writeLines(getTodoFile(), mItems);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -130,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void scrollItemsListViewToBottom() {
-    lvItems.post(new Runnable() {
+    mLvItems.post(new Runnable() {
       @Override
       public void run() {
-        lvItems.setSelection(lvItems.getCount() - 1);
+        mLvItems.setSelection(mLvItems.getCount() - 1);
       }
     });
   }
