@@ -30,8 +30,8 @@ public class EditTodoItemActivity extends AppCompatActivity {
   public void onSaveItem(View view) {
     String itemText = ((EditText) findViewById(R.id.etEditItem)).getText().toString();
     Intent intent = new Intent();
-    intent.putExtra("item_text", itemText);
-    intent.putExtra("item_position", mItemPosition);
+    intent.putExtra(EXTRA_ITEM_TEXT, itemText);
+    intent.putExtra(EXTRA_ITEM_POSITION, mItemPosition);
     setResult(ITEM_UPDATED_CODE_OK, intent);
     finish();
   }

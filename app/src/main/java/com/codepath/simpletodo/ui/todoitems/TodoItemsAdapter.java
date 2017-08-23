@@ -40,16 +40,16 @@ public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
     TodoItem todoItem = getItem(position);
     // Populate the data into the template view using the data object
     assert todoItem != null;
-    viewHolder.title.setText(todoItem.getTitle());
+    viewHolder.mTextViewTitle.setText(todoItem.getTitle());
     // Return the completed view to render on screen
     return convertView;
   }
 
   private class ViewHolder {
-    TextView title;
+    TextView mTextViewTitle;
 
     ViewHolder(View todoItemView) {
-      title = todoItemView.findViewById(R.id.tvTodoItemTitle);
+      mTextViewTitle = todoItemView.findViewById(R.id.tvTodoItemTitle);
     }
   }
 }

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class TodoItemsActivity extends AppCompatActivity {
   private ArrayList<TodoItem> mItems;
   private ArrayAdapter<TodoItem> mItemsAdapter;
-  private ListView mLvItems;
+  private ListView mListViewItems;
 
   private static final int ITEM_UPDATED_CODE = 1;
 
@@ -30,10 +30,10 @@ public class TodoItemsActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_todo_items);
 
-    mLvItems = findViewById(R.id.lvItems);
+    mListViewItems = findViewById(R.id.lvItems);
     readItems();
     mItemsAdapter = new TodoItemsAdapter(this, mItems);
-    mLvItems.setAdapter(mItemsAdapter);
+    mListViewItems.setAdapter(mItemsAdapter);
     setupListViewListener();
   }
 
@@ -49,14 +49,14 @@ public class TodoItemsActivity extends AppCompatActivity {
   }
 
   private void setupListViewListener() {
-    mLvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    mListViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View item, int pos, long id) {
         launchEditItemActivity(mItems.get(pos).getTitle(), pos);
       }
     });
 
-    mLvItems.setOnItemLongClickListener(
+    mListViewItems.setOnItemLongClickListener(
         new AdapterView.OnItemLongClickListener() {
           @Override
           public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id) {
@@ -129,10 +129,10 @@ public class TodoItemsActivity extends AppCompatActivity {
   }
 
   private void scrollItemsListViewToBottom() {
-    mLvItems.post(new Runnable() {
+    mListViewItems.post(new Runnable() {
       @Override
       public void run() {
-        mLvItems.setSelection(mLvItems.getCount() - 1);
+        mListViewItems.setSelection(mListViewItems.getCount() - 1);
       }
     });
   }
