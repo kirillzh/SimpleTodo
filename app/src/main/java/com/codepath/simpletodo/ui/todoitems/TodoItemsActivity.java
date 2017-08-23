@@ -11,11 +11,8 @@ import android.widget.ListView;
 
 import com.codepath.simpletodo.R;
 import com.codepath.simpletodo.data.TodoItem;
+import com.codepath.simpletodo.data.TodoItemsDatabase;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TodoItemsActivity extends AppCompatActivity {
@@ -31,7 +28,7 @@ public class TodoItemsActivity extends AppCompatActivity {
     setContentView(R.layout.activity_todo_items);
 
     mListViewItems = findViewById(R.id.lvItems);
-    readItems();
+    mItems = (ArrayList<TodoItem>) TodoItemsDatabase.getInstance(this).getTodoItems();
     mItemsAdapter = new TodoItemsAdapter(this, mItems);
     mListViewItems.setAdapter(mItemsAdapter);
     setupListViewListener();
@@ -39,11 +36,12 @@ public class TodoItemsActivity extends AppCompatActivity {
 
   public void onAddItem(View view) {
     EditText etNewItem = findViewById(R.id.etNewItem);
-    String itemText = etNewItem.getText().toString().trim();
-    if (!itemText.isEmpty()) {
-      mItemsAdapter.add(new TodoItem(itemText));
+    String title = etNewItem.getText().toString().trim();
+    if (!title.isEmpty()) {
+      TodoItem todoItem = new TodoItem(title);
+      mItemsAdapter.add(todoItem);
       etNewItem.setText("");
-      writeItems();
+      TodoItemsDatabase.getInstance(this).addTodoItem(todoItem);
       scrollItemsListViewToBottom();
     }
   }
@@ -60,49 +58,19 @@ public class TodoItemsActivity extends AppCompatActivity {
         new AdapterView.OnItemLongClickListener() {
           @Override
           public boolean onItemLongClick(AdapterView<?> adapterView, View item, int pos, long id) {
-            mItems.remove(pos);
+            TodoItem todoItem = mItems.remove(pos);
             mItemsAdapter.notifyDataSetChanged();
-            writeItems();
+            TodoItemsDatabase.getInstance(TodoItemsActivity.this).deleteTodoItem(todoItem.getId());
             return true;
           }
         }
     );
   }
 
-  private void updateItem(int position, String newItemText) {
-    mItems.set(position, new TodoItem(newItemText));
+  private void updateItem(int position, TodoItem todoItem) {
+    mItems.set(position, todoItem);
     mItemsAdapter.notifyDataSetChanged();
-    writeItems();
-  }
-
-  private File getTodoFile() {
-    return new File(getFilesDir(), "todo.txt");
-  }
-
-  /**
-   * Opens a file and reads a newline-delimited list of items
-   */
-  private void readItems() {
-    mItems = new ArrayList<>();
-    try {
-      ArrayList lines = new ArrayList<>(FileUtils.readLines(getTodoFile()));
-      for (Object line : lines) {
-        mItems.add(new TodoItem(line.toString()));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Saves a file and writes a newline-delimited list of items
-   */
-  private void writeItems() {
-    try {
-      FileUtils.writeLines(getTodoFile(), mItems);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    TodoItemsDatabase.getInstance(this).updateTodoItem(todoItem);
   }
 
   private void launchEditItemActivity(String itemText, int itemPosition) {
@@ -122,9 +90,14 @@ public class TodoItemsActivity extends AppCompatActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ITEM_UPDATED_CODE && resultCode == EditTodoItemActivity.ITEM_UPDATED_CODE_OK) {
-      String itemText = data.getStringExtra(EditTodoItemActivity.EXTRA_ITEM_TEXT);
-      int itemPosition = data.getIntExtra(EditTodoItemActivity.EXTRA_ITEM_POSITION, -1);
-      updateItem(itemPosition, itemText);
+      String title = data.getStringExtra(EditTodoItemActivity.EXTRA_ITEM_TEXT);
+      int position = data.getIntExtra(EditTodoItemActivity.EXTRA_ITEM_POSITION, -1);
+      TodoItem todoItem = mItemsAdapter.getItem(position);
+      if (todoItem != null) {
+        updateItem(position, new TodoItem(todoItem.getId(), title));
+      } else {
+        // TODO: handle null case
+      }
     }
   }
 
