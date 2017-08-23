@@ -34,6 +34,10 @@ public class TodoItem {
     return mTitle;
   }
 
+  public void setTitle(@NonNull String title) {
+    mTitle = title;
+  }
+
   @Override
   public String toString() {
     return getId() + ":" + getTitle();

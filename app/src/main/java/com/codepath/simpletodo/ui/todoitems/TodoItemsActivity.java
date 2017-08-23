@@ -94,7 +94,8 @@ public class TodoItemsActivity extends AppCompatActivity {
       int position = data.getIntExtra(EditTodoItemActivity.EXTRA_ITEM_POSITION, -1);
       TodoItem todoItem = mItemsAdapter.getItem(position);
       if (todoItem != null) {
-        updateItem(position, new TodoItem(todoItem.getId(), title));
+        todoItem.setTitle(title);
+        updateItem(position, todoItem);
       } else {
         // TODO: handle null case
       }
