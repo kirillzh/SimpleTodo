@@ -34,8 +34,8 @@ public class TodoItemsActivity extends AppCompatActivity {
     setupListViewListener();
   }
 
-  public void onAddItem(View view) {
-    EditText etNewItem = findViewById(R.id.etNewItem);
+  public void onAddTodo(View view) {
+    EditText etNewItem = findViewById(R.id.etAddTodo);
     String title = etNewItem.getText().toString().trim();
     if (!title.isEmpty()) {
       TodoItem todoItem = new TodoItem(title, System.currentTimeMillis());

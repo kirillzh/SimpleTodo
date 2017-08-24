@@ -11,20 +11,32 @@
         android:id="@+id/etEditItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="6dp"
         android:ems="10"
-        android:hint="@string/edit_item" />
+        android:hint="@string/add_todo"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/due_date" />
-
-    <TextView
-        android:id="@+id/tvDueDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:onClick="chooseDueDate"
-        android:text="@string/no_due_date" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="3dp"
+            android:text="@string/due_date"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_due_date" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnSave"
