@@ -14,5 +14,6 @@ public class TodoItemsPersistenceContract {
     public static final String TABLE_NAME = "todo_items";
     public static final String COLUMN_NAME_ID = "id";
     public static final String COLUMN_NAME_TITLE = "title";
+    public static final String COLUMN_NAME_DUE_DATE = "due_date";
   }
 }

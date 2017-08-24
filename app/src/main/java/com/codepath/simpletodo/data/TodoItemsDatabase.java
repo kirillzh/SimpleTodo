@@ -21,7 +21,6 @@ public class TodoItemsDatabase {
   private TodoItemsDbHelper mDbHelper;
 
   private TodoItemsDatabase(@NonNull Context context) {
-    // TODO: application context?
     mDbHelper = new TodoItemsDbHelper(context);
   }
 
@@ -36,20 +35,21 @@ public class TodoItemsDatabase {
     List<TodoItem> todoItems = new ArrayList<>();
 
     SQLiteDatabase db = mDbHelper.getReadableDatabase();
-    Cursor cursor = db.rawQuery("SELECT * FROM " + TodoItemEntry.TABLE_NAME, null);
+    Cursor c = db.rawQuery("SELECT * FROM " + TodoItemEntry.TABLE_NAME, null);
     try {
-      if (cursor.moveToFirst()) {
+      if (c.moveToFirst()) {
         do {
-          String id = cursor.getString(cursor.getColumnIndexOrThrow(TodoItemEntry.COLUMN_NAME_ID));
-          String title = cursor.getString(cursor.getColumnIndexOrThrow(TodoItemEntry.COLUMN_NAME_TITLE));
-          todoItems.add(new TodoItem(id, title));
-        } while (cursor.moveToNext());
+          String id = c.getString(c.getColumnIndexOrThrow(TodoItemEntry.COLUMN_NAME_ID));
+          String title = c.getString(c.getColumnIndexOrThrow(TodoItemEntry.COLUMN_NAME_TITLE));
+          long dueDate = c.getLong(c.getColumnIndexOrThrow(TodoItemEntry.COLUMN_NAME_DUE_DATE));
+          todoItems.add(new TodoItem(id, title, dueDate));
+        } while (c.moveToNext());
       }
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      if (cursor != null && !cursor.isClosed()) {
-        cursor.close();
+      if (c != null && !c.isClosed()) {
+        c.close();
       }
     }
     db.close();
@@ -61,6 +61,7 @@ public class TodoItemsDatabase {
     ContentValues values = new ContentValues();
     values.put(TodoItemEntry.COLUMN_NAME_ID, todoItem.getId());
     values.put(TodoItemEntry.COLUMN_NAME_TITLE, todoItem.getTitle());
+    values.put(TodoItemEntry.COLUMN_NAME_DUE_DATE, todoItem.getDueDate());
 
     SQLiteDatabase db = mDbHelper.getWritableDatabase();
     db.beginTransaction();
@@ -99,6 +100,7 @@ public class TodoItemsDatabase {
     ContentValues values = new ContentValues();
     values.put(TodoItemEntry.COLUMN_NAME_ID, todoItem.getId());
     values.put(TodoItemEntry.COLUMN_NAME_TITLE, todoItem.getTitle());
+    values.put(TodoItemEntry.COLUMN_NAME_DUE_DATE, todoItem.getDueDate());
 
     SQLiteDatabase db = mDbHelper.getWritableDatabase();
     db.beginTransaction();

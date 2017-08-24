@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.codepath.simpletodo.R;
 import com.codepath.simpletodo.data.TodoItem;
+import com.codepath.simpletodo.utils.DateUtils;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,7 @@ public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
 
     // Check if an existing view is being reused, otherwise inflate the view
     if (convertView == null) {
-      convertView = LayoutInflater.from(getContext())
-          .inflate(R.layout.todo_item, parent, false);
+      convertView = LayoutInflater.from(getContext()).inflate(R.layout.todo_item, parent, false);
       viewHolder = new ViewHolder(convertView);
       convertView.setTag(viewHolder);
     } else {
@@ -41,15 +41,25 @@ public class TodoItemsAdapter extends ArrayAdapter<TodoItem> {
     // Populate the data into the template view using the data object
     assert todoItem != null;
     viewHolder.mTextViewTitle.setText(todoItem.getTitle());
+    Long dueDate = todoItem.getDueDate();
+    if (dueDate == null) {
+      viewHolder.mTextViewDueDate.setVisibility(View.GONE);
+    } else {
+      String date = DateUtils.toReadableDate(dueDate);
+      viewHolder.mTextViewDueDate.setVisibility(View.VISIBLE);
+      viewHolder.mTextViewDueDate.setText(date);
+    }
     // Return the completed view to render on screen
     return convertView;
   }
 
   private class ViewHolder {
     TextView mTextViewTitle;
+    TextView mTextViewDueDate;
 
     ViewHolder(View todoItemView) {
       mTextViewTitle = todoItemView.findViewById(R.id.tvTodoItemTitle);
+      mTextViewDueDate = todoItemView.findViewById(R.id.tvDueDate);
     }
   }
 }

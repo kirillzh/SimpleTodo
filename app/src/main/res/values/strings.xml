@@ -2,8 +2,9 @@
     <string name="app_name">SimpleTodo</string>
     <string name="add_item">Add item</string>
     <string name="enter_a_new_item">Enter a new item</string>
-    <string name="edit_item_below">Edit Item Below:</string>
     <string name="buy_milk">Buy Milk</string>
     <string name="save">Save</string>
     <string name="edit_item">Edit Item</string>
+    <string name="no_due_date">No due date</string>
+    <string name="due_date">Due date</string>
 </resources>

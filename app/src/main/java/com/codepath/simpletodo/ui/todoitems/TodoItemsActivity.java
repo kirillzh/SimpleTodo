@@ -38,7 +38,7 @@ public class TodoItemsActivity extends AppCompatActivity {
     EditText etNewItem = findViewById(R.id.etNewItem);
     String title = etNewItem.getText().toString().trim();
     if (!title.isEmpty()) {
-      TodoItem todoItem = new TodoItem(title);
+      TodoItem todoItem = new TodoItem(title, System.currentTimeMillis());
       mItemsAdapter.add(todoItem);
       etNewItem.setText("");
       TodoItemsDatabase.getInstance(this).addTodoItem(todoItem);
@@ -50,7 +50,7 @@ public class TodoItemsActivity extends AppCompatActivity {
     mListViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> adapterView, View item, int pos, long id) {
-        launchEditItemActivity(mItems.get(pos).getTitle(), pos);
+        launchEditItemActivity(mItems.get(pos), pos);
       }
     });
 
@@ -73,16 +73,15 @@ public class TodoItemsActivity extends AppCompatActivity {
     TodoItemsDatabase.getInstance(this).updateTodoItem(todoItem);
   }
 
-  private void launchEditItemActivity(String itemText, int itemPosition) {
+  private void launchEditItemActivity(TodoItem todoItem, int itemPosition) {
     Intent intent = new Intent(this, EditTodoItemActivity.class);
-    intent.putExtra(EditTodoItemActivity.EXTRA_ITEM_TEXT, itemText);
+    intent.putExtra(EditTodoItemActivity.EXTRA_ITEM_TITLE, todoItem.getTitle());
+    intent.putExtra(EditTodoItemActivity.EXTRA_ITEM_DUE_DATE, todoItem.getDueDate());
     intent.putExtra(EditTodoItemActivity.EXTRA_ITEM_POSITION, itemPosition);
     startActivityForResult(intent, ITEM_UPDATED_CODE);
   }
 
   /**
-   * TODO: add snackbar
-   *
    * @param requestCode
    * @param resultCode
    * @param data
@@ -90,11 +89,13 @@ public class TodoItemsActivity extends AppCompatActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ITEM_UPDATED_CODE && resultCode == EditTodoItemActivity.ITEM_UPDATED_CODE_OK) {
-      String title = data.getStringExtra(EditTodoItemActivity.EXTRA_ITEM_TEXT);
+      String title = data.getStringExtra(EditTodoItemActivity.EXTRA_ITEM_TITLE);
+      long dueDate = data.getLongExtra(EditTodoItemActivity.EXTRA_ITEM_DUE_DATE, -1);
       int position = data.getIntExtra(EditTodoItemActivity.EXTRA_ITEM_POSITION, -1);
       TodoItem todoItem = mItemsAdapter.getItem(position);
       if (todoItem != null) {
         todoItem.setTitle(title);
+        todoItem.setDueDate(dueDate);
         updateItem(position, todoItem);
       } else {
         // TODO: handle null case
